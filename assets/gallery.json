@@ -1,0 +1,14 @@
+{
+  "less": [
+    "assets/gallery/less/less001.jpg",
+    "assets/gallery/less/less002.jpg",
+    "assets/gallery/less/less003.jpg"
+  ],
+  "more": [
+    "assets/gallery/more/more001.jpg",
+    "assets/gallery/more/more002.jpg"
+  ],
+  "normal": [
+    "assets/gallery/normal/normal001.jpg"
+  ]
+}
