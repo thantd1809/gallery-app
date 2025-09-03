@@ -3,7 +3,7 @@ name: Deploy Angular to GitHub Pages
 on:
   push:
     branches:
-      - main  # triggers on every push to main
+      - main  # Triggers deployment on push to main
 
 jobs:
   build-deploy:
@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '20'
 
@@ -22,11 +22,11 @@ jobs:
       run: npm ci
 
     - name: Build Angular project
-      run: npm run build -- --configuration production --base-href /gallery-app/
+      run: npm run build -- --configuration production --base-href /repo-name/
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v6
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        branch: gh-pages       # target branch
+        branch: gh-pages       # Target branch for deployment
         folder: dist/your-app-name  # Angular build output folder
         token: ${{ secrets.GITHUB_TOKEN }}
