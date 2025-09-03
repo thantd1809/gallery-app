@@ -1,38 +1,6 @@
-<div class="app-container">
-  <h1 class="h-center">Gallery</h1>
-
-  <div class="controls">
-    <label>
-      <span class="sr-only">Chọn category</span>
-      <select class="select-inline" [(ngModel)]="selected" (change)="onCategoryChange()">
-        <option *ngFor="let c of categories" [value]="c">{{ labels[c] || c }}</option>
-      </select>
-    </label>
+<div *ngFor="let category of categories" class="category-block">
+  <h2>{{ category | titlecase }} Gallery</h2>
+  <div class="gallery">
+    <img *ngFor="let img of images[category]" [src]="img" [alt]="category" />
   </div>
-
-  <div *ngIf="!loaded" class="h-center">Loading images…</div>
-  <div *ngIf="loaded && images.length === 0" class="h-center">No images for this category.</div>
-
-  <div class="grid" *ngIf="images.length">
-    <figure class="tile" *ngFor="let src of images; let i = index">
-      <img
-        class="responsive"
-        [src]="src"
-        [attr.loading]="'lazy'"
-        alt="{{ labels[selected] || selected }}"
-        (click)="openLightbox(i)"
-        (keydown.enter)="openLightbox(i)"
-        tabindex="0"
-      />
-      <figcaption class="caption">{{ labels[selected] || selected }}</figcaption>
-    </figure>
-  </div>
-</div>
-
-<!-- Lightbox -->
-<div class="lightbox" *ngIf="lightboxOpen" (click)="closeLightbox()">
-  <button class="lightbox-close" (click)="closeLightbox(); $event.stopPropagation()">✕</button>
-  <img class="lightbox-img" [src]="images[currentIndex]" alt="preview" />
-  <button class="lightbox-prev" (click)="prev($event)">‹</button>
-  <button class="lightbox-next" (click)="next($event)">›</button>
 </div>

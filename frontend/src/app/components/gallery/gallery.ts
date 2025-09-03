@@ -1,89 +1,35 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './gallery.html',
-  styleUrl: './gallery.css'
+  styleUrls: ['./gallery.css']
 })
-export class Gallery implements OnInit, OnDestroy {
-  categories: string[] = ['less', 'more', 'normal'];
-  labels: Record<string, string> = {
-    less: 'Ít',
-    more: 'Nhiều',
-    normal: 'Bình thường'
-  };
+export class Gallery implements OnInit {
+  categories: string[] = [];
+  images: { [key: string]: string[] } = {};
 
-  selected = 'less';
-  manifest: Record<string, string[]> = {};
-  images: string[] = [];
-  loaded = false;
+  private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
 
-  // Lightbox state
-  lightboxOpen = false;
-  currentIndex = 0;
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
-    this.http.get<Record<string, string[]>>('/assets/images.json').subscribe({
-      next: data => {
-        this.manifest = data;
-        this.onCategoryChange();
-        this.loaded = true;
-      },
-      error: err => {
-        console.error('Error loading manifest', err);
-        this.loaded = true;
-      }
-    });
-
-    window.addEventListener('keydown', this.keyHandler);
-  }
-
-  ngOnDestroy() {
-    window.removeEventListener('keydown', this.keyHandler);
-  }
-
-  onCategoryChange() {
-    const files = this.manifest[this.selected] || [];
-    this.images = files.map(f => `/assets/${this.selected}/${f}`);
-  }
-
-  // Lightbox methods
-  openLightbox(index: number) {
-    this.currentIndex = index;
-    this.lightboxOpen = true;
-    document.body.style.overflow = 'hidden';
-  }
-
-  closeLightbox() {
-    this.lightboxOpen = false;
-    document.body.style.overflow = '';
-  }
-
-  prev(event?: Event) {
-    event?.stopPropagation();
-    if (this.images.length) {
-      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+  ngOnInit(): void {
+    // Only load JSON in the browser, not during SSR/prerender
+    if (isPlatformBrowser(this.platformId)) {
+      this.http.get<{ [key: string]: string[] }>('assets/gallery.json')
+        .subscribe({
+          next: (data) => {
+            this.images = data;
+            this.categories = Object.keys(data);
+            console.log('✅ Loaded gallery.json', data);
+          },
+          error: (err) => {
+            console.error('❌ Failed to load gallery.json', err);
+          }
+        });
     }
   }
-
-  next(event?: Event) {
-    event?.stopPropagation();
-    if (this.images.length) {
-      this.currentIndex = (this.currentIndex + 1) % this.images.length;
-    }
-  }
-
-  private keyHandler = (e: KeyboardEvent) => {
-    if (!this.lightboxOpen) return;
-    if (e.key === 'Escape') this.closeLightbox();
-    if (e.key === 'ArrowLeft') this.prev();
-    if (e.key === 'ArrowRight') this.next();
-  };
 }
