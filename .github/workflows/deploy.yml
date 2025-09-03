@@ -3,7 +3,7 @@ name: Deploy Angular Frontend to GitHub Pages
 on:
   push:
     branches:
-      - main  # hoặc master nếu nhánh mặc định của bạn là master
+      - main
 
 jobs:
   build:
@@ -11,7 +11,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: frontend  # 👉 chỉ định thư mục Angular app
+        working-directory: frontend
 
     steps:
       - name: Checkout repository
