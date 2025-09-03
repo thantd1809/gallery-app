@@ -9,6 +9,10 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: frontend  # Set working directory to frontend
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -28,5 +32,5 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages       # Target branch for deployment
-        folder: dist/gallery-app  # Angular build output folder
+        folder: frontend/dist/gallery-app  # Angular build output folder
         token: ${{ secrets.GITHUB_TOKEN }}
