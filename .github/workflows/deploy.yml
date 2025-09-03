@@ -32,5 +32,5 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages       # Target branch for deployment
-        folder: frontend/dist/frontend  # Angular build output folder
+        folder: frontend/dist/frontend/browser  # <-- only browser folder
         token: ${{ secrets.GITHUB_TOKEN }}
