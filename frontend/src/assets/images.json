@@ -1,0 +1,5 @@
+{
+  "less": ["less001.jpg", "less002.jpg", "less003.jpg"],
+  "more": ["more001.jpg", "more002.jpg"],
+  "normal": ["normal001.jpg"]
+}
