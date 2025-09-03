@@ -1,0 +1,35 @@
+name: Deploy Angular Frontend to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # hoặc master nếu nhánh mặc định của bạn là master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend  # 👉 chỉ định thư mục Angular app
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Angular app
+        run: npm run build -- --configuration production --base-href "/gallery-app/"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./frontend/dist/gallery-app/browser
