@@ -26,7 +26,7 @@ jobs:
       run: npm install
 
     - name: Build Angular project
-      run: npm run ng build -- --configuration production --base-href /gallery-app/
+      run: npm run build:static -- --base-href /gallery-app/
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
