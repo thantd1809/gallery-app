@@ -18,7 +18,6 @@ export class Gallery implements OnInit {
   images$ = new BehaviorSubject<{ [key: string]: string[] }>({});
 
   ngOnInit(): void {
-    // Only load JSON in browser
     if (isPlatformBrowser(this.platformId)) {
       this.http.get<{ [key: string]: string[] }>('assets/gallery.json')
         .subscribe({
