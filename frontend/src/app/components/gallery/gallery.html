@@ -1,12 +1,7 @@
-<div *ngIf="categories$ | async as categories; else loading">
-  <div *ngFor="let category of categories" class="category-block">
-    <h2>{{ category | titlecase }} Gallery</h2>
-    <div class="gallery" *ngIf="images$ | async as images">
-      <img *ngFor="let img of images[category]" [src]="img" [alt]="category" />
-    </div>
+<div *ngFor="let category of categories" class="category-block">
+  <h2>{{ category | titlecase }} Gallery</h2>
+  <div class="gallery">
+    <img *ngFor="let img of images[category]" [src]="img" [alt]="category" />
   </div>
 </div>
 
-<ng-template #loading>
-  <p>Loading gallery...</p>
-</ng-template>
