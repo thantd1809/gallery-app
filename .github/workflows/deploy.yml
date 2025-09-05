@@ -38,7 +38,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   # -------------------------------
-  # Deploy to Vercel by Git actions after GitHub Pages
+  # Deploy to Vercel by Git actions
   # -------------------------------
   deploy-vercel:
     runs-on: ubuntu-latest
