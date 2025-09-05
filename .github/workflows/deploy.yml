@@ -42,7 +42,7 @@ jobs:
   # -------------------------------
   deploy-vercel:
     runs-on: ubuntu-latest
-    needs: deploy-gh-pages # chạy sau GitHub Pages
+    needs: deploy-gh-pages # after GitHub Pages
     defaults:
       run:
         working-directory: frontend
